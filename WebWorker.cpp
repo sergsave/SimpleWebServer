@@ -6,15 +6,12 @@
 #include <thread>
 #include <mutex>
 
-static std::mutex g_mutex;
-
 WebWorker::WebWorker(std::unique_ptr<ClientWebSocketHandle>& handle):
 	m_socketHandle(std::move(handle))
 {}
 
 void WebWorker::execute()
 {
-	std::lock_guard<std::mutex> guard(g_mutex);
 	auto req = m_socketHandle->recieveRequest();
 
 	if (req.empty())
